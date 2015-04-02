@@ -10,17 +10,35 @@
 
 @interface AppDelegate ()
 
-@property (weak) IBOutlet NSWindow *window;
 @end
 
-@implementation AppDelegate
+@implementation AppDelegate {
+    BOOL bWC;
+}
+- (id)init{
+    self = [super init];
+    if (self){
+        bWC = YES;
+    }
+    return self;
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    // Insert code here to initialize your application
+    if (bWC) {
+        [NSApp terminate:self];
+    }
 }
 
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // Insert code here to tear down your application
+#pragma mark - open file
+
+//ドックアイコンへのドラッグアンドドロップ時
+- (BOOL)application:(NSApplication *)sender openFile:(NSString *)filename{
+    return YES;
 }
 
+- (void) application:(NSApplication *)sender openFiles:(NSArray *)filenames{
+    bWC = NO;
+    //ドロップ時の処理
+    [NSApp terminate:self];
+}
 @end
